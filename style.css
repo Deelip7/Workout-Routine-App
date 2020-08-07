@@ -10,6 +10,8 @@ body {
   background-color: #e3e2e7;
   font-family: "Ruluko", sans-serif;
   overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 .wrapper {
   /* Container */
