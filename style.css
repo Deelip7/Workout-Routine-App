@@ -9,12 +9,13 @@
 body {
   background-color: #e3e2e7;
   font-family: "Ruluko", sans-serif;
+  overflow: hidden;
 }
 .wrapper {
   /* Container */
   position: absolute;
   width: 410px;
-  height: 723px;
+  height: 100%;
   right: 50%;
   transform: translate(50%, 0%);
   background: #ffffff;
@@ -28,17 +29,11 @@ body {
 
 .title {
   position: absolute;
-  width: 152px;
-  height: 35px;
   right: 50%;
-  top: 5%;
+  top: 6%;
   font-family: Ruluko;
-  font-style: normal;
-  font-weight: normal;
   font-size: 30px;
-  line-height: 35px;
-  /* identical to box height */
-  color: #000000;
+  color: #434040;
 }
 
 .card {
@@ -49,13 +44,13 @@ body {
   background: #f2f2f2;
   border: 2px solid #60b5ba;
   border-radius: 50px;
-  top: 60%;
+  top: 65%;
   right: 50%;
   transform: translate(50%, -50%);
-  width: 99%;
-  height: 90%;
+  width: 105%;
+  height: 100%;
   text-align: center;
-  padding: 30px 0;
+  padding: 40px 0;
 }
 .card > div {
   width: 312px;
@@ -63,7 +58,7 @@ body {
 }
 .card > input {
   width: 312px;
-  padding-top: 10px;
+  padding: 6px 0;
   margin-top: 10px;
   border: 1px solid #d0d0d0;
 }
@@ -72,6 +67,7 @@ button {
   margin-top: 15px;
   width: 312px;
   padding: 10px 0;
+  font-family: inherit;
 }
 
 .button-add {
