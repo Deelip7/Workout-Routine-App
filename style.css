@@ -9,7 +9,7 @@
 body {
   background-color: #e3e2e7;
   font-family: "Ruluko", sans-serif;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .wrapper {
   /* Container */
@@ -19,7 +19,7 @@ body {
   right: 50%;
   transform: translate(50%, 0%);
   background: #ffffff;
-  border: 1px solid rgba(168, 168, 168, 0.62);
+  /* border: 1px solid rgba(168, 168, 168, 0.62); */
   box-sizing: border-box;
   box-shadow: 4px 2px 21px rgba(0, 0, 0, 0.04);
   /* top: 40%;
@@ -43,7 +43,7 @@ body {
   flex-direction: column;
   background: #f2f2f2;
   border-top: 5px solid #60b5ba;
-  border-radius: 50px;
+  border-radius: 50px 50px 0 0;
   top: 65%;
   right: 50%;
   transform: translate(50%, -50%);
@@ -83,4 +83,13 @@ button {
 .button-skip {
   background-color: #ffffff00;
   border: none;
+}
+
+@media only screen and (min-width: 800px) {
+  .wrapper {
+    /* Container */
+    position: absolute;
+    width: 510px;
+    height: 80%;
+  }
 }
