@@ -1,3 +1,6 @@
+// Main Add button
+const inputAddbtn = document.getElementById("addbtn");
+
 //Template for creating new workout plans
 class Routine {
   constructor(workoutType, exercise, set, rep) {
@@ -38,11 +41,20 @@ class UpdateUI {
       el.parentElement.parentElement.remove();
     }
   }
+
+  static showMsg(msg, className) {
+    const msgContainer = document.createElement("div");
+    msgContainer.innerText = msg;
+    msgContainer.classList.add("showMsg");
+    setTimeout(() => msgContainer.classList.add("slide"), 5);
+    msgContainer.classList.add(className);
+    document.body.appendChild(msgContainer);
+    setTimeout(() => msgContainer.remove(), 3000);
+    inputAddbtn.addEventListener("click", () => msgContainer.remove());
+  }
 }
 
-document.addEventListener("DOMContentLoaded", UpdateUI.displayRoutine);
-
-const inputAddbtn = document.getElementById("addbtn");
+// document.addEventListener("DOMContentLoaded", UpdateUI.displayRoutine);
 
 inputAddbtn.addEventListener("click", (e) => {
   const inputWorkout = document.querySelector(".workout").value;
@@ -50,15 +62,22 @@ inputAddbtn.addEventListener("click", (e) => {
   const inputSet = document.querySelector(".set").value;
   const inputRep = document.querySelector(".rep").value;
 
+  //Validation
+  if (inputWorkout == "" || inputExercise == "" || inputRep == "" || inputSet == "") {
+    UpdateUI.showMsg("Please fill in all fields", "danger");
+  } else {
+    UpdateUI.showMsg("Added", "success");
+
+    const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
+    //Add plan to table
+    UpdateUI.addPlanToList(plan);
+    //Clear inputs
+    UpdateUI.clearUserInputs();
+  }
   //Instatiate routine
-  const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
-  console.log(plan);
-  //Add plan to table
-  UpdateUI.addPlanToList(plan);
-  //Clear inputs
-  UpdateUI.clearUserInputs();
 });
 
 document.querySelector("#plan-list").addEventListener("click", (e) => {
   UpdateUI.removePlan(e.target);
+  UpdateUI.showMsg("Removed", "success");
 });

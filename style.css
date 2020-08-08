@@ -52,11 +52,12 @@ body {
   text-align: center;
   padding: 40px 0;
 }
-.card > div {
+.card > div,
+.card > form {
   width: 312px;
   margin-top: 30px;
 }
-.card > input {
+form > input {
   width: 312px;
   padding: 6px 0;
   margin-top: 15px;
@@ -83,6 +84,27 @@ button {
 .button-skip {
   background-color: #ffffff00;
   border: none;
+}
+.showMsg {
+  position: fixed;
+  bottom: 5%;
+  right: -10%;
+  width: 200px;
+  padding: 10px 30px;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.7s ease;
+}
+.slide {
+  bottom: 5%;
+  right: 5%;
+}
+.danger {
+  background: #f55a5a;
+}
+.success {
+  background: #5af579;
 }
 
 @media only screen and (min-width: 800px) {
