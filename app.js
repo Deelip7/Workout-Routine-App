@@ -31,6 +31,13 @@ class UpdateUI {
     document.querySelector(".set").value = "";
     document.querySelector(".rep").value = "";
   }
+
+  //Remove plan from tabel
+  static removePlan(el) {
+    if (el.classList.contains("delete")) {
+      el.parentElement.parentElement.remove();
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", UpdateUI.displayRoutine);
@@ -50,4 +57,8 @@ inputAddbtn.addEventListener("click", (e) => {
   UpdateUI.addPlanToList(plan);
   //Clear inputs
   UpdateUI.clearUserInputs();
+});
+
+document.querySelector("#plan-list").addEventListener("click", (e) => {
+  UpdateUI.removePlan(e.target);
 });
