@@ -8,27 +8,8 @@ class Routine {
   }
 }
 
-//
 class UpdateUI {
-  static displayRoutine() {
-    const storedPlan = [
-      {
-        workoutType: "Upper body",
-        exercise: "Upper body",
-        set: "3",
-        rep: "12",
-      },
-      {
-        workoutType: "Lower body",
-        exercise: "Sit-ups",
-        set: "4",
-        rep: "8",
-      },
-    ];
-
-    const plans = storedPlan;
-    plans.forEach((plan) => UpdateUI.addPlanToList(plan));
-  }
+  static displayRoutine() {}
 
   static addPlanToList(plan) {
     const list = document.querySelector("#plan-list");
@@ -43,16 +24,30 @@ class UpdateUI {
 
     list.appendChild(row);
   }
+
+  static clearUserInputs() {
+    document.querySelector(".workout").value = "";
+    document.querySelector(".exercise").value = "";
+    document.querySelector(".set").value = "";
+    document.querySelector(".rep").value = "";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", UpdateUI.displayRoutine);
-// const inputAddbtn = document.getElementById("addbtn");
 
-// inputAddbtn.addEventListener("click", (e) => {
-//   const inputWorkout = document.querySelector(".workout").value;
-//   const inputExercise = document.querySelector(".exercise").value;
-//   const inputSet = document.querySelector(".set").value;
-//   const inputRep = document.querySelector(".rep").value;
+const inputAddbtn = document.getElementById("addbtn");
 
-//   const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
-// });
+inputAddbtn.addEventListener("click", (e) => {
+  const inputWorkout = document.querySelector(".workout").value;
+  const inputExercise = document.querySelector(".exercise").value;
+  const inputSet = document.querySelector(".set").value;
+  const inputRep = document.querySelector(".rep").value;
+
+  //Instatiate routine
+  const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
+  console.log(plan);
+  //Add plan to table
+  UpdateUI.addPlanToList(plan);
+  //Clear inputs
+  UpdateUI.clearUserInputs();
+});
