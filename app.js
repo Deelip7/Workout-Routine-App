@@ -27,10 +27,10 @@ class UpdateUI {
     <td>${plan.exercise}</td>
     <td>${plan.set}</td>
     <td>${plan.rep}</td>
-    <td>${plan.id}</td>
     <td><a href="#" class="btn  btn-sm delete">X</a></td>
     `;
 
+    // <td>${plan.id}</td>
     list.appendChild(row);
   }
 
