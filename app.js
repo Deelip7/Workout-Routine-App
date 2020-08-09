@@ -3,16 +3,21 @@ const inputAddbtn = document.getElementById("addbtn");
 
 //Template for creating new workout plans
 class Routine {
-  constructor(workoutType, exercise, set, rep) {
+  constructor(workoutType, exercise, set, rep, id) {
     this.workoutType = workoutType;
     this.exercise = exercise;
     this.set = set;
     this.rep = rep;
+    this.id = id;
   }
 }
 
+// UI updates
 class UpdateUI {
-  static displayRoutine() {}
+  static displayPlans() {
+    const plans = StoreData.getData();
+    plans.forEach((plan) => UpdateUI.addPlanToList(plan));
+  }
 
   static addPlanToList(plan) {
     const list = document.querySelector("#plan-list");
@@ -22,6 +27,7 @@ class UpdateUI {
     <td>${plan.exercise}</td>
     <td>${plan.set}</td>
     <td>${plan.rep}</td>
+    <td>${plan.id}</td>
     <td><a href="#" class="btn  btn-sm delete">X</a></td>
     `;
 
@@ -54,13 +60,48 @@ class UpdateUI {
   }
 }
 
-// document.addEventListener("DOMContentLoaded", UpdateUI.displayRoutine);
+//Store data to local storage
+class StoreData {
+  static getData() {
+    let plans;
+    if (localStorage.getItem("plans") === null) {
+      plans = [];
+    } else {
+      plans = JSON.parse(localStorage.getItem("plans"));
+    }
 
-inputAddbtn.addEventListener("click", (e) => {
+    return plans;
+  }
+
+  static addData(plan) {
+    const plans = StoreData.getData();
+    plans.push(plan);
+    localStorage.setItem("plans", JSON.stringify(plans));
+  }
+
+  static removeData(id) {
+    const plans = StoreData.getData();
+
+    plans.forEach((plan, index) => {
+      console.log("plan:", plans[index].id, "id:", id);
+      if (plans[index].id === id) {
+        console.log(plans[index].id, "id:", id);
+      }
+    });
+    localStorage.setItem("plans", JSON.stringify(plans));
+  }
+}
+
+// User inputs and UI functions
+document.addEventListener("DOMContentLoaded", UpdateUI.displayPlans);
+document.querySelector("#addbtn").addEventListener("click", (e) => {
+  e.preventDefault();
+
   const inputWorkout = document.querySelector(".workout").value;
   const inputExercise = document.querySelector(".exercise").value;
   const inputSet = document.querySelector(".set").value;
   const inputRep = document.querySelector(".rep").value;
+  const id = Date.now();
 
   //Validation
   if (inputWorkout == "" || inputExercise == "" || inputRep == "" || inputSet == "") {
@@ -68,16 +109,24 @@ inputAddbtn.addEventListener("click", (e) => {
   } else {
     UpdateUI.showMsg("Added", "success");
 
+    //Instantiate
     const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
-    //Add plan to table
+
+    //Add plan to UI
     UpdateUI.addPlanToList(plan);
+
+    //Add plan to localStorge
+    StoreData.addData(plan);
+
     //Clear inputs
     UpdateUI.clearUserInputs();
+
+    //remove plan
   }
-  //Instatiate routine
 });
 
 document.querySelector("#plan-list").addEventListener("click", (e) => {
   UpdateUI.removePlan(e.target);
+  StoreData.removeData(e.target.parentElement.previousElementSibling.textContent);
   UpdateUI.showMsg("Removed", "success");
 });
