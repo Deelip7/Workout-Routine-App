@@ -1,5 +1,6 @@
 // Main Add button
 const inputAddbtn = document.getElementById("addbtn");
+const inputRemovebtn = document.getElementById("plan-list");
 
 //Template for creating new workout plans
 class Routine {
@@ -28,7 +29,7 @@ class UpdateUI {
     <td>${plan.set}</td>
     <td>${plan.rep}</td>
     <td hidden>${plan.id}</td>
-    <td><a href="#" class="btn  btn-sm delete">X</a></td>
+    <td><a href="javascript:void(0)" class="btn  btn-sm delete">X</a></td>
     `;
 
     list.appendChild(row);
@@ -45,6 +46,7 @@ class UpdateUI {
   static removePlan(el) {
     if (el.classList.contains("delete")) {
       el.parentElement.parentElement.remove();
+      UpdateUI.showMsg("Removed", "success");
     }
   }
 
@@ -57,6 +59,7 @@ class UpdateUI {
     document.body.appendChild(msgContainer);
     setTimeout(() => msgContainer.remove(), 3000);
     inputAddbtn.addEventListener("click", () => msgContainer.remove());
+    inputRemovebtn.addEventListener("click", () => msgContainer.remove());
   }
 }
 
@@ -84,7 +87,6 @@ class StoreData {
 
     plans.forEach((plan, index) => {
       if (plan.id == el) {
-        console.log(plan.id, el, index);
         plans.splice(index, 1);
       }
     });
@@ -118,15 +120,16 @@ document.querySelector("#addbtn").addEventListener("click", (e) => {
     //Add plan to localStorge
     StoreData.addData(plan);
 
+    // tableH.style.color = "red";
+
     //Clear inputs
-    UpdateUI.clearUserInputs();
+    // UpdateUI.clearUserInputs();
 
     //remove plan
   }
 });
 
-document.querySelector("#plan-list").addEventListener("click", (e) => {
+inputRemovebtn.addEventListener("click", (e) => {
   UpdateUI.removePlan(e.target);
   StoreData.removeData(e.target.parentElement.previousElementSibling.textContent);
-  UpdateUI.showMsg("Removed", "success");
 });

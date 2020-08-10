@@ -16,20 +16,20 @@
   <body>
     <div class="wrapper">
       <div class="header">
-        <div class="title">Add Routines</div>
+        <div class="title">Workout Routines</div>
         <div class="card">
           <!-- <div class="card__day"></div> -->
-          <form>
-            <div class="card__workoutType">Workout type</div>
+          <form class="noselect">
+            <div class="text-gray">Workout type</div>
             <input type="text" class="workout" />
 
-            <div class="card__exercise">Exercise</div>
+            <div class="">Exercise</div>
             <input type="text" class="exercise" />
 
-            <div class="card__set">Sets</div>
+            <div class="">Sets</div>
             <input type="number" min="1" class="set" pattern="[0-9]+" />
 
-            <div class="card__reps">Reps</div>
+            <div class="">Reps</div>
             <input type="number" min="1" class="rep" pattern="[0-9]+" />
 
             <button class="button button-add" id="addbtn">Add</button>
@@ -37,11 +37,11 @@
 
           <!-- <button class="button button-skip">Skip today</button> -->
 
-          <h3 class="bg-light w-100 p-2 mb-0 mt-5">Monday</h3>
+          <!-- <h3 class="bg-light w-100 p-2 mb-0 mt-5">Monday</h3> -->
 
-          <table class="table table-striped bg-light text-black shadow-sm border">
+          <table class="table table-striped bg-light shadow-sm mt-5">
             <thead>
-              <tr>
+              <tr class="text-white bg-dark">
                 <th>Workout type</th>
                 <th>Exercise</th>
                 <th>Sets</th>
