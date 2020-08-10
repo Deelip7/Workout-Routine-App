@@ -27,10 +27,10 @@ class UpdateUI {
     <td>${plan.exercise}</td>
     <td>${plan.set}</td>
     <td>${plan.rep}</td>
+    <td hidden>${plan.id}</td>
     <td><a href="#" class="btn  btn-sm delete">X</a></td>
     `;
 
-    // <td>${plan.id}</td>
     list.appendChild(row);
   }
 
@@ -79,13 +79,13 @@ class StoreData {
     localStorage.setItem("plans", JSON.stringify(plans));
   }
 
-  static removeData(id) {
+  static removeData(el) {
     const plans = StoreData.getData();
 
     plans.forEach((plan, index) => {
-      console.log("plan:", plans[index].id, "id:", id);
-      if (plans[index].id === id) {
-        console.log(plans[index].id, "id:", id);
+      if (plan.id == el) {
+        console.log(plan.id, el, index);
+        plans.splice(index, 1);
       }
     });
     localStorage.setItem("plans", JSON.stringify(plans));
@@ -110,7 +110,7 @@ document.querySelector("#addbtn").addEventListener("click", (e) => {
     UpdateUI.showMsg("Added", "success");
 
     //Instantiate
-    const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep);
+    const plan = new Routine(inputWorkout, inputExercise, inputSet, inputRep, id);
 
     //Add plan to UI
     UpdateUI.addPlanToList(plan);
