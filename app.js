@@ -1,8 +1,14 @@
-// Main Add button
+//  Add and remove button
 const inputAddbtn = document.getElementById("addbtn");
 const inputRemovebtn = document.getElementById("plan-list");
 
-//Template for creating new workout plans
+/*
+/------------------------------------------------------------
+/   Routine Class
+/------------------------------------------------------------
+/   Template for creating new workout plans
+/
+*/
 class Routine {
   constructor(workoutType, exercise, set, rep, id) {
     this.workoutType = workoutType;
@@ -12,37 +18,44 @@ class Routine {
     this.id = id;
   }
 }
-
-// UI updates
+/*
+/------------------------------------------------------------
+/   UI Class
+/------------------------------------------------------------
+/   Updates the UI basic on user inputs
+/   displayPlans() method run when DOM loads.
+/
+*/
 class UpdateUI {
   static displayPlans() {
-    const plans = StoreData.getData();
-    plans.forEach((plan) => UpdateUI.addPlanToList(plan));
+    const plans = StoreData.getData(); // Get array from local Storage. IF no data in Local storage = <empty array>
+    plans.forEach((plan) => UpdateUI.addPlanToList(plan)); //IF data is present in Local storage = pass it to addBookToList method
   }
 
   static addPlanToList(plan) {
-    const list = document.querySelector("#plan-list");
+    const list = document.querySelector("#plan-list"); // Select tbody from HTML
     const row = document.createElement("tr");
 
     row.innerHTML = `<td>${plan.workoutType}</td>
     <td>${plan.exercise}</td>
     <td>${plan.set}</td>
     <td>${plan.rep}</td>
-    <td hidden>${plan.id}</td>
-    <td><a href="javascript:void(0)" class="btn  btn-sm delete">X</a></td>
-    `;
+    <td hidden>${plan.id}</td> 
+    <td><a href="javascript:void(0)" class="btn  btn-sm delete">X</a></td> 
+    `; // plan.id is hidden from users. used for adding unique id to each plans
 
-    list.appendChild(row);
+    list.appendChild(row); // Append row to tbody
   }
 
   static clearUserInputs() {
+    // Clear input field after button click
     document.querySelector(".workout").value = "";
     document.querySelector(".exercise").value = "";
     document.querySelector(".set").value = "";
     document.querySelector(".rep").value = "";
   }
 
-  //Remove plan from tabel
+  //Remove plan from UI and DOM but not from the local storage.
   static removePlan(el) {
     if (el.classList.contains("delete")) {
       el.parentElement.parentElement.remove();
@@ -50,49 +63,71 @@ class UpdateUI {
     }
   }
 
+  // dipslay alerts when user click certian buttons
   static showMsg(msg, className) {
     const msgContainer = document.createElement("div");
+
     msgContainer.innerText = msg;
     msgContainer.classList.add("showMsg");
+
     setTimeout(() => msgContainer.classList.add("slide"), 5);
     msgContainer.classList.add(className);
     document.body.appendChild(msgContainer);
     setTimeout(() => msgContainer.remove(), 3000);
-    inputAddbtn.addEventListener("click", () => msgContainer.remove());
+    inputAddbtn.addEventListener("click", () => msgContainer.remove()); // remove previous alert before showing next alert. Prevent spamming alerts
     inputRemovebtn.addEventListener("click", () => msgContainer.remove());
   }
 }
 
-//Store data to local storage
+/*
+/------------------------------------------------------------
+/   Store Class
+/------------------------------------------------------------
+/   Store data from user input to the LocalStorage
+/   Retrieve data on reload
+/
+*/
 class StoreData {
   static getData() {
     let plans;
     if (localStorage.getItem("plans") === null) {
+      // create local storage array called "plans" and set it = []
       plans = [];
     } else {
-      plans = JSON.parse(localStorage.getItem("plans"));
+      plans = JSON.parse(localStorage.getItem("plans")); // if "plans" array exists return it to addData()
     }
 
     return plans;
   }
 
   static addData(plan) {
-    const plans = StoreData.getData();
+    // plan parameter is coming from user input
+    const plans = StoreData.getData(); //array from local storage
     plans.push(plan);
-    localStorage.setItem("plans", JSON.stringify(plans));
+    localStorage.setItem("plans", JSON.stringify(plans)); //push new data from user to local storage
   }
 
   static removeData(el) {
-    const plans = StoreData.getData();
-
+    // el parameter is coming remove button Onclick
+    const plans = StoreData.getData(); //array from local storage
     plans.forEach((plan, index) => {
+      // loops iterate over each item in  local storage array
       if (plan.id == el) {
+        // if local storage array = to button e.target remove it from array
         plans.splice(index, 1);
       }
     });
-    localStorage.setItem("plans", JSON.stringify(plans));
+    localStorage.setItem("plans", JSON.stringify(plans)); //push new data from user to local storage
   }
 }
+
+/*
+/------------------------------------------------------------
+/   Events
+/------------------------------------------------------------
+/   Add button instantiate plans and call UI class and store class
+/
+*/
 
 // User inputs and UI functions
 document.addEventListener("DOMContentLoaded", UpdateUI.displayPlans);
@@ -120,15 +155,12 @@ document.querySelector("#addbtn").addEventListener("click", (e) => {
     //Add plan to localStorge
     StoreData.addData(plan);
 
-    // tableH.style.color = "red";
-
     //Clear inputs
-    // UpdateUI.clearUserInputs();
-
-    //remove plan
+    UpdateUI.clearUserInputs();
   }
 });
 
+//Remove Button Event
 inputRemovebtn.addEventListener("click", (e) => {
   UpdateUI.removePlan(e.target);
   StoreData.removeData(e.target.parentElement.previousElementSibling.textContent);
